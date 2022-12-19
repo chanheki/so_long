@@ -53,7 +53,7 @@ int	main(int argc, char *argv[])
 		mlx_loop(game.mlx);
 	}
 	else
-		perror ("please input only one map");
+		perror ("Usage: ./so_long [MAP_FILE.ber]\n");
 	return (0);
 }
 
@@ -66,7 +66,7 @@ int	exit_game(t_game *game)
 
 int	end_game(t_game *game)
 {
-	print_cat_move(game->board->count_move + 1, 0);
+	print_step_count(game->board->count_move + 1, 0);
 	mlx_destroy_window(game->mlx, game->win);
 	exit(0);
 }
@@ -78,13 +78,14 @@ void	ret_error(char *errmsg)
 	exit(0);
 }
 
-void	print_cat_move(int count_move, int flag)
+void	print_step_count(int count_move, int flag)
 {
 	if (flag)
-		write(1, "cat moved ", 10);
+		write(1, "step count: ", 12);
 	else
-		write(1, "\ngame over!! your cat moved ", 28);
-	ft_putnbr(count_move);
+		write(1, "\ngame over!! step count: ", 25);
+	// ft_putnbr(count_move);
+	ft_putnbr_fd(count_move, 0);
 	write(1, " steps\n", 7);
 }
 
