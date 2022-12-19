@@ -13,7 +13,8 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include <mlx.h>
+// # include <mlx.h>
+# include "mlx/mlx.h"
 # include "lib/libft.h"
 # include <stdio.h>
 # include <fcntl.h>
@@ -95,10 +96,9 @@ void	checkerset(t_game *checker, t_game *game);
 int		end_game(t_game *game);
 int		exit_game(t_game *game);
 void	ret_error(char *errmsg);
-void	print_cat_move(int count_move, int flag);
+void	print_step_count(int count_move, int flag);
 
 void	check_validate_board(t_game *game, char *str);
-void	ft_putnbr(int n);
 
 void	img_set(t_game *game);
 void	map_set(t_game *game, int pressed_key, int collectible);
