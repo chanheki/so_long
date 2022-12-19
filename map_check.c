@@ -64,9 +64,9 @@ static int	is_cat_escape(t_game *game)
 
 static int	check_around_wall(t_game *game, char *str)
 {
-	int	i;
-
-	i = 0;
+//	int	i;
+//
+//	i = 0;
 	// while (str[i])
 	// {
 	// 	if (i <= game->board->wid)
