@@ -53,12 +53,21 @@ void	img_set(t_game *game)
 	game->box_open = mlx_xpm_file_to_image(game->mlx, BOX_OPEN, &wid, &hei);
 }
 
+static void	draw_step_count(t_game *game)
+{
+	char	*str;
+
+	str = ft_itoa(game->board->count_move);
+	mlx_string_put(game->mlx, game->win, 4, 10, 0xFFFFFF, str);
+	free(str);
+}
+
 void	map_set(t_game *game, int key_code, int collectible)
 {
 	int	x;
 	int	y;
 
-	print_cat_move(game->board->count_move, 1);
+	print_step_count(game->board->count_move, 1);
 	x = game->board->hei;
 	while (x--)
 	{
@@ -80,6 +89,7 @@ void	map_set(t_game *game, int key_code, int collectible)
 				put_box_image(game, x, y, collectible);
 		}
 	}
+	draw_step_count(game);
 }
 
 void	put_box_image(t_game *g, int hei, int wid, int collectible)
