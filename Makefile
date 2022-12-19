@@ -23,9 +23,9 @@ ARFLAGS		=	rcsu
 
 DBGS		=	-fsanitize=address -d3
 
-MLXNAME		=	mlx
-MLXDIR		=	./mlx
-MLXFLAGS	=	-framework OpenGL -framework AppKit
+MLX_NAME	=	mlx
+MLX_DIR		=	./mlx
+MLX_FLAGS	=	-L./mlx -lmlx -framework OpenGL -framework Appkit
 
 SRCS		=	so_long.c \
 				so_long_utils.c \
@@ -48,11 +48,12 @@ debug : $(NAME)
 
 $(NAME) : $(OBJS)
 	make -C $(LIB_DIR)
+	make -C $(MLX_DIR)
 	cp $(LIB_DIR)/$(LIBFT) $(NAME)
-	$(CC) $(CFLAGS) -l$(MLXNAME) $(MLXFLAGS) $(OBJS) $(LIB_DIR)/$(LIBFT) -o $(NAME) $(if $(filter debug, $(MAKECMDGOALS)), $(DBGS))
+	$(CC) $(CFLAGS) -l$(MLX_NAME) $(MLX_FLAGS) $(OBJS) $(LIB_DIR)/$(LIBFT) -o $(NAME) $(if $(filter debug, $(MAKECMDGOALS)), $(DBGS))
 	make fclean -C $(LIB_DIR)
 	@echo "$(YELLOW)===============================================$(DEF_COLOR)"
-	@echo "$(YELLOW)|         Push_Swap compile finished.         |$(DEF_COLOR)"
+	@echo "$(YELLOW)|         so_long   compile finished.         |$(DEF_COLOR)"
 	@echo "$(YELLOW)===============================================$(DEF_COLOR)"
 
 clean:
