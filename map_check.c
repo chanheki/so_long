@@ -6,7 +6,7 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 20:11:51 by chanheki          #+#    #+#             */
-/*   Updated: 2022/12/19 22:08:25 by chanheki         ###   ########.fr       */
+/*   Updated: 2022/12/21 21:34:24 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ void	check_validate_board(t_game *game, char *str)
 			player --;
 		else if (str[i] == 'E')
 			map_exit --;
+		else if (str[i] == 'e')
+			game->board->enemy_count ++;
 		else if (str[i] != '0' && str[i] != '1' && str[i] != '\n')
 			ret_error("unexpected input on map");
 		i++;

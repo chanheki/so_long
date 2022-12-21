@@ -36,7 +36,8 @@ SRCS		=	so_long.c \
 				get_next_line.c \
 				so_long_init.c \
 				so_long_mlx.c \
-				so_long_player.c
+				so_long_player.c \
+				so_long_enemy.c
 
 OBJS	=	$(SRCS:.c=.o)
 

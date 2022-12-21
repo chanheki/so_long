@@ -6,7 +6,7 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 20:07:18 by chanheki          #+#    #+#             */
-/*   Updated: 2022/12/21 19:38:22 by chanheki         ###   ########.fr       */
+/*   Updated: 2022/12/21 23:16:45 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ void	map_set(t_game *game, int key_code, int collectible)
 	int	x;
 	int	y;
 
-	(void)key_code;
-	print_step_count(game->board->count_move, 1);
 	x = game->board->hei;
 	while (x--)
 	{
@@ -84,6 +82,8 @@ void	map_set(t_game *game, int key_code, int collectible)
 					y * 50, x * 50);
 			else if (game->board->map[x][y] == 'E')
 				put_box_image(game, x, y, collectible);
+			// else if (game->board->map[x][y] == 'e')
+			// 	find_enemy(game);
 		}
 	}
 	draw_step_count(game);

@@ -6,7 +6,7 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 18:55:01 by chanheki          #+#    #+#             */
-/*   Updated: 2022/12/21 20:51:15 by chanheki         ###   ########.fr       */
+/*   Updated: 2022/12/21 23:14:10 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 # define ENEMY_MAX_FRAME	30
 # define WIDTH				50
 # define HEIGHT				50
-
-# define ASSET_PATH	"./asset"
 
 # define TILE "./asset/tile.xpm"
 # define WALL "./asset/wall.xpm"
@@ -47,20 +45,15 @@
 # define PLAYER_RIGHT_02 "./asset/player_d02.xpm"
 # define PLAYER_LEFT_02 "./asset/player_a02.xpm"
 
-# define ENEMY_UP "./asset/enemy_w00.xpm"
-# define ENEMY_DOWN "./asset/enemy_s00.xpm"
-# define ENEMY_RIGHT "./asset/enemy_d00.xpm"
-# define ENEMY_LEFT "./asset/enemy_a00.xpm"
+# define ENEMY_UP "./asset/blinky/enemy_w00.xpm"
+# define ENEMY_DOWN "./asset/blinky/enemy_s00.xpm"
+# define ENEMY_RIGHT "./asset/blinky/enemy_d00.xpm"
+# define ENEMY_LEFT "./asset/blinky/enemy_a00.xpm"
 
-# define ENEMY_UP_01 "./asset/enemy_w01.xpm"
-# define ENEMY_DOWN_01 "./asset/enemy_s01.xpm"
-# define ENEMY_RIGHT_01 "./asset/enemy_d01.xpm"
-# define ENEMY_LEFT_01 "./asset/enemy_a01.xpm"
-
-# define ENEMY_UP_02 "./asset/enemy_w02.xpm"
-# define ENEMY_DOWN_02 "./asset/enemy_s02.xpm"
-# define ENEMY_RIGHT_02 "./asset/enemy_d02.xpm"
-# define ENEMY_LEFT_02 "./asset/enemy_a02.xpm"
+# define ENEMY_UP_01 "./asset/blinky/enemy_w01.xpm"
+# define ENEMY_DOWN_01 "./asset/blinky/enemy_s01.xpm"
+# define ENEMY_RIGHT_01 "./asset/blinky/enemy_d01.xpm"
+# define ENEMY_LEFT_01 "./asset/blinky/enemy_a01.xpm"
 
 /* mlx_event */
 typedef enum e_mlx_event {
@@ -127,10 +120,10 @@ typedef struct s_enemy
 	int		dir;
 	int		x;
 	int		y;
-	void	*enemy_up[3];
-	void	*enemy_down[3];
-	void	*enemy_right[3];
-	void	*enemy_left[3];
+	void	*enemy_up[2];
+	void	*enemy_down[2];
+	void	*enemy_right[2];
+	void	*enemy_left[2];
 }	t_enemy;
 
 /* so_long game */
@@ -138,7 +131,7 @@ typedef struct s_game
 {
 	t_board		*board;
 	t_player	*player;
-	t_enemy		**enemy;
+	t_enemy		*enemy;
 	void		*mlx;
 	void		*win;
 	void		*tile;
@@ -169,8 +162,9 @@ int		key_handler(int key, t_game *game);
 void	so_long_init(t_game *game);
 void	game_init(t_game *game, t_board *board);
 void	player_init(t_game *game, t_player *player);
-void	enemy_init(t_game *game, int enemy_count);
+void	enemy_init(t_game *game);
 
 void	*mxfti(void *xvar, char *file, int *width, int *height);
 int		mpitw(t_game *game, void *img_ptr, int x, int y);
+void	find_enemy(t_game *game);
 #endif
