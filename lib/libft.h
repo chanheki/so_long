@@ -6,7 +6,7 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 18:40:50 by chanheki          #+#    #+#             */
-/*   Updated: 2022/12/19 20:55:42 by chanheki         ###   ########.fr       */
+/*   Updated: 2022/12/21 23:07:43 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+int			ft_abs(int n);
 int			ft_atoi(const char *str);
 long long	ft_atoll(const char *str);
 void		ft_bzero(void *s, size_t n);

@@ -6,7 +6,7 @@
 #    By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/06 12:06:46 by chanheki          #+#    #+#              #
-#    Updated: 2022/12/19 20:55:56 by chanheki         ###   ########.fr        #
+#    Updated: 2022/12/21 23:07:55 by chanheki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,8 @@ SRCS 		=	ft_isalpha.c \
 				ft_putchar_fd.c \
 				ft_putstr_fd.c \
 				ft_putendl_fd.c \
-				ft_putnbr_fd.c
+				ft_putnbr_fd.c \
+				ft_abs.c
 
 OBJS 		=	$(SRCS:.c=.o)
 
