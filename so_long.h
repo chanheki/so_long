@@ -6,7 +6,7 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 18:55:01 by chanheki          #+#    #+#             */
-/*   Updated: 2022/12/21 23:14:10 by chanheki         ###   ########.fr       */
+/*   Updated: 2022/12/22 00:16:24 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,9 +162,13 @@ int		key_handler(int key, t_game *game);
 void	so_long_init(t_game *game);
 void	game_init(t_game *game, t_board *board);
 void	player_init(t_game *game, t_player *player);
-void	enemy_init(t_game *game);
+void	enemy_init(t_game *game, t_enemy *enemy);
 
 void	*mxfti(void *xvar, char *file, int *width, int *height);
 int		mpitw(t_game *game, void *img_ptr, int x, int y);
+
+void	move_enemy(t_game *game, int x, int y, int dir);
 void	find_enemy(t_game *game);
+int		dir_enemy(t_game *game, int x, int y);
+void	draw_enemy_dir(t_game *game, int dir, int key_code);
 #endif
