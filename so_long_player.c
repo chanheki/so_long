@@ -6,11 +6,32 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 19:25:04 by chanheki          #+#    #+#             */
-/*   Updated: 2022/12/21 20:52:35 by chanheki         ###   ########.fr       */
+/*   Updated: 2022/12/21 22:47:54 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./so_long.h"
+
+void	player_position(t_game *game)
+{
+	int			x;
+	int			y;
+
+	x = game->board->hei;
+	while (x--)
+	{
+		y = game->board->wid;
+		while (y--)
+		{
+			if (game->board->map[x][y] == 'P')
+				break ;
+		}
+		if (game->board->map[x][y] == 'P')
+			break ;
+	}
+	game->player->x = x;
+	game->player->y = y;
+}
 
 void	player_init(t_game *game, t_player *player)
 {

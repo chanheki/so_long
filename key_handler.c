@@ -6,32 +6,11 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 22:23:46 by chanheki          #+#    #+#             */
-/*   Updated: 2022/12/21 19:20:43 by chanheki         ###   ########.fr       */
+/*   Updated: 2022/12/21 22:47:47 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./so_long.h"
-
-void	player_position(t_game *game)
-{
-	int			x;
-	int			y;
-
-	x = game->board->hei;
-	while (x--)
-	{
-		y = game->board->wid;
-		while (y--)
-		{
-			if (game->board->map[x][y] == 'P')
-				break ;
-		}
-		if (game->board->map[x][y] == 'P')
-			break ;
-	}
-	game->player->x = x;
-	game->player->y = y;
-}
 
 static void	press_key(t_game *game, int dir)
 {
@@ -53,6 +32,7 @@ static void	press_key(t_game *game, int dir)
 		game->player->y += dy[dir];
 		game->board->map[x + dx[dir]][y + dy[dir]] = 'P';
 		game->board->count_move += 1;
+		print_step_count(game->board->count_move, 1);
 	}
 	game->player->dir = dir;
 	map_set(game, dir, game->board->collectible);
