@@ -14,21 +14,40 @@
 
 static void	frame_count(t_game *game)
 {
-	game->player->frame++;
-	if (game->player->frame >= PLAYER_MAX_FRAME)
-		game->player->frame = 0;
-	while (game->board->enemy_count)
+	if (game->game_status == NORMAL)
 	{
-		game->enemy->frame++;
-		if (game->enemy->frame >= ENEMY_MAX_FRAME)
-			game->enemy->frame = 0;
-	}
+		game->player->frame++;
+		if (game->player->frame >= PLAYER_MAX_FRAME)
+			game->player->frame = 0;
+		if (game->board->enemy_count)
+		{
+			game->enemy->frame++;
+			if (game->enemy->frame >= ENEMY_MAX_FRAME)
+			{
+				game->enemy->frame = 0;
+				game->enemy->move ++;
+				if (game->enemy->move > ENEMY_MOVE_FREQ)
+					game->enemy->move = 0;
+			}
+		}
+	}	
 }
 
 static int	main_loop(t_game *game)
 {
-	frame_count(game);
-	draw_player(game, game->player->dir);
+	if (game->game_status == NORMAL)
+	{
+		frame_count(game);
+		draw_player(game, game->player->dir);
+		draw_enemy_move(game);
+		if (game->enemy->move == ENEMY_MOVE_FREQ)
+			find_enemy(game);
+	}
+	else if (game->game_status == GAME_OVER)
+	{
+		draw_player_lose(game);
+		printf("gameover\n");
+	}
 	return (0);
 }
 
@@ -47,7 +66,7 @@ int	main(int argc, char *argv[])
 		player_init(&game, &player);
 		enemy_init(&game, &enemy);
 		img_init(&game);
-		map_set(&game, 2, game.board->collectible);
+		map_init(&game);
 		mlx_hook(game.win, ON_KEYDOWN, 0, key_handler, &game);
 		mlx_hook(game.win, ON_DESTROY, 0, exit_game, &game);
 		mlx_loop_hook(game.mlx, &main_loop, &game);
