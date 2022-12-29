@@ -34,6 +34,7 @@ void	map_read(char *filename, t_game *game)
 	check_validate_board(game, str);
 	game->board->map = ft_split(str, '\n');
 	free(str);
+	free(line);
 	close(fd);
 }
 
@@ -53,12 +54,40 @@ static void	draw_step_count(t_game *game)
 {
 	char	*str;
 
+	mpitw(game, game->wall, 0 * WIDTH, 0 * HEIGHT);
 	str = ft_itoa(game->board->count_move);
 	mlx_string_put(game->mlx, game->win, 4, 10, 0xFFFFFF, str);
 	free(str);
 }
 
-void	map_set(t_game *game, int key_code, int collectible)
+void	map_set(t_game *game, int key_code)
+{
+	int	x;
+	int	y;
+
+	x = game->board->hei;
+	while (x--)
+	{
+		y = game->board->wid;
+		while (y--)
+		{
+			if (game->board->map[x][y] == '0')
+				mpitw(game, game->tile, y * WIDTH, x * HEIGHT);
+			else if (game->board->map[x][y] == 'P')
+				draw_player(game, key_code);
+			else if (game->board->map[x][y] == 'e')
+			{
+				game->enemy->x = x;
+				game->enemy->y = y;
+				draw_enemy(game, dir_enemy(game, x, y));
+			}
+		}
+	}
+	check_exit(game);
+	draw_step_count(game);
+}
+
+void	map_init(t_game *game)
 {
 	int	x;
 	int	y;
@@ -70,31 +99,40 @@ void	map_set(t_game *game, int key_code, int collectible)
 		while (y--)
 		{
 			if (game->board->map[x][y] == '1')
-				mpitw(game, game->wall,
-					y * 50, x * 50);
+				mpitw(game, game->wall, y * WIDTH, x * HEIGHT);
 			else if (game->board->map[x][y] == '0')
-				mpitw(game, game->tile,
-					y * 50, x * 50);
+				mpitw(game, game->tile, y * WIDTH, x * HEIGHT);
 			else if (game->board->map[x][y] == 'P')
-				draw_player(game, key_code);
-			else if (game->board->map[x][y] == 'C')
-				mpitw(game, game->collect,
-					y * 50, x * 50);
+				draw_player(game, game->player->dir);
 			else if (game->board->map[x][y] == 'E')
-				put_box_image(game, x, y, collectible);
+				exit_init(game, x, y);
+			else if (game->board->map[x][y] == 'C')
+				mpitw(game, game->collect, y * WIDTH, x * HEIGHT);
 			else if (game->board->map[x][y] == 'e')
-				move_enemy(game, x, y, dir_enemy(game, x, y));
+			{
+				game->enemy->x = x;
+				game->enemy->y = y;
+				draw_enemy(game, dir_enemy(game, x, y));
+			}
 		}
 	}
+	check_exit(game);
 	draw_step_count(game);
 }
 
-void	put_box_image(t_game *g, int hei, int wid, int collectible)
+void	exit_init(t_game *game, int x, int y)
 {
-	if (collectible == 0)
-		mlx_put_image_to_window(g->mlx, g->win, g->exit_open,
-			wid * 50, hei * 50);
-	else
-		mlx_put_image_to_window(g->mlx, g->win, g->exit_close,
-			wid * 50, hei * 50);
+	game->exit_x = x;
+	game->exit_y = y;
+	game->board->map[x][y] = '0';
+}
+
+void	check_exit(t_game *game)
+{
+	if (game->board->collectible == 0)
+	{
+		game->board->map[game->exit_x][game->exit_y] = 'E';
+		mpitw(game, game->exit_open,
+				game->exit_y * WIDTH, game->exit_x * HEIGHT);
+	}
 }
