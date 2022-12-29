@@ -20,7 +20,8 @@
 # include <fcntl.h>
 
 # define PLAYER_MAX_FRAME	30
-# define ENEMY_MAX_FRAME	30
+# define ENEMY_MAX_FRAME	10
+# define ENEMY_MOVE_FREQ	30
 # define WIDTH				50
 # define HEIGHT				50
 
@@ -44,6 +45,19 @@
 # define PLAYER_DOWN_02 "./asset/player_s02.xpm"
 # define PLAYER_RIGHT_02 "./asset/player_d02.xpm"
 # define PLAYER_LEFT_02 "./asset/player_a02.xpm"
+
+# define PLAYER_LOSE_00 "./asset/player_lose00.xpm"
+# define PLAYER_LOSE_01 "./asset/player_lose01.xpm"
+# define PLAYER_LOSE_02 "./asset/player_lose02.xpm"
+# define PLAYER_LOSE_03 "./asset/player_lose03.xpm"
+# define PLAYER_LOSE_04 "./asset/player_lose04.xpm"
+# define PLAYER_LOSE_05 "./asset/player_lose05.xpm"
+# define PLAYER_LOSE_06 "./asset/player_lose06.xpm"
+# define PLAYER_LOSE_07 "./asset/player_lose07.xpm"
+# define PLAYER_LOSE_08 "./asset/player_lose08.xpm"
+# define PLAYER_LOSE_09 "./asset/player_lose09.xpm"
+# define PLAYER_LOSE_10 "./asset/player_lose10.xpm"
+# define PLAYER_LOSE_11 "./asset/player_lose11.xpm"
 
 # define ENEMY_UP "./asset/blinky/enemy_w00.xpm"
 # define ENEMY_DOWN "./asset/blinky/enemy_s00.xpm"
@@ -111,12 +125,13 @@ typedef struct s_player
 	void	*player_down[3];
 	void	*player_right[3];
 	void	*player_left[3];
+	void	*player_lose[12];
 }	t_player;
 
 typedef struct s_enemy
 {
 	int		frame;
-	int		type;
+	int		move;
 	int		dir;
 	int		x;
 	int		y;
@@ -126,22 +141,34 @@ typedef struct s_enemy
 	void	*enemy_left[2];
 }	t_enemy;
 
+typedef enum e_game_status
+{
+	NORMAL		= 0,
+	PAUSE 		= 1,
+	GAME_OVER 	= 2,
+	SHUTDOWN	= 3
+}	t_game_status;
+
 /* so_long game */
 typedef struct s_game
 {
-	t_board		*board;
-	t_player	*player;
-	t_enemy		*enemy;
-	void		*mlx;
-	void		*win;
-	void		*tile;
-	void		*wall;
-	void		*collect;
-	void		*exit_close;
-	void		*exit_open;
+	t_board			*board;
+	t_player		*player;
+	t_enemy			*enemy;
+	t_game_status	game_status;
+	void			*mlx;
+	void			*win;
+	void			*tile;
+	void			*wall;
+	void			*collect;
+	void			*exit_close;
+	void			*exit_open;
+	int				exit_x;
+	int				exit_y;
 }	t_game;
 
 /* so_long func */
+void	lose_game(t_game *game);
 void	checkerset(t_game *checker, t_game *game);
 int		end_game(t_game *game);
 int		exit_game(t_game *game);
@@ -151,10 +178,11 @@ void	print_step_count(int count_move, int flag);
 void	check_validate_board(t_game *game, char *str);
 
 void	img_init(t_game *game);
-void	map_set(t_game *game, int key_code, int collectible);
+void	map_set(t_game *game, int key_code);
 void	map_read(char *filename, t_game *game);
-void	put_box_image(t_game *g, int hei, int wid, int collectible);
+void	check_exit(t_game *game);
 void	draw_player(t_game *game, int key_code);
+void	draw_player_lose(t_game *game);
 
 void	player_position(t_game *game);
 int		key_handler(int key, t_game *game);
@@ -163,12 +191,16 @@ void	so_long_init(t_game *game);
 void	game_init(t_game *game, t_board *board);
 void	player_init(t_game *game, t_player *player);
 void	enemy_init(t_game *game, t_enemy *enemy);
+void	map_init(t_game *game);
+void	exit_init(t_game *game, int x, int y);
 
 void	*mxfti(void *xvar, char *file, int *width, int *height);
 int		mpitw(t_game *game, void *img_ptr, int x, int y);
 
 void	move_enemy(t_game *game, int x, int y, int dir);
+void	draw_enemy_move(t_game *game);
 void	find_enemy(t_game *game);
 int		dir_enemy(t_game *game, int x, int y);
+void	draw_enemy(t_game *game, int key_code);
 void	draw_enemy_dir(t_game *game, int dir, int key_code);
 #endif
