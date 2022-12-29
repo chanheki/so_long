@@ -21,6 +21,7 @@ void	so_long_init(t_game *game)
 
 void	game_init(t_game *game, t_board *board)
 {
+	game->game_status = NORMAL;
 	game->player = NULL;
 	game->enemy = NULL;
 	board->hei = 0;
