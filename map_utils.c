@@ -6,11 +6,29 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 20:07:18 by chanheki          #+#    #+#             */
-/*   Updated: 2022/12/22 00:16:03 by chanheki         ###   ########.fr       */
+/*   Updated: 2022/12/29 22:29:16 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./so_long.h"
+
+static char	*so_long_strjoin(char *s1, char *s2)
+{
+	char	*result;
+	size_t	total_length;
+
+	if (!s1 || !s2)
+		return (NULL);
+	total_length = (ft_strlen(s1) + ft_strlen(s2) + 1);
+	result = (char *)malloc(sizeof(char) * total_length);
+	if (!result)
+		return (NULL);
+	ft_strlcpy(result, s1, total_length);
+	ft_strlcat(result, s2, total_length);
+	free(s1);
+	free(s2);
+	return (result);
+}
 
 void	map_read(char *filename, t_game *game)
 {
@@ -27,8 +45,7 @@ void	map_read(char *filename, t_game *game)
 	while (line)
 	{
 		game->board->hei++;
-		str = ft_strjoin(str, line);
-		free(line);
+		str = so_long_strjoin(str, line);
 		line = get_next_line(fd);
 	}
 	check_validate_board(game, str);
