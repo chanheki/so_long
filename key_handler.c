@@ -21,6 +21,8 @@ static void	press_key(t_game *game, int dir)
 
 	if (game->board->map[x + dx[dir]][y + dy[dir]] == 'C')
 		game->board->collectible -= 1;
+	if (game->board->map[x + dx[dir]][y + dy[dir]] == 'e')
+		lose_game(game);
 	if (game->board->map[x + dx[dir]][y + dy[dir]] == 'E' &&
 			game->board->collectible == 0)
 		end_game(game);
@@ -35,7 +37,7 @@ static void	press_key(t_game *game, int dir)
 		print_step_count(game->board->count_move, 1);
 	}
 	game->player->dir = dir;
-	map_set(game, dir, game->board->collectible);
+	map_set(game, dir);
 }
 
 int	key_handler(int key, t_game *game)
