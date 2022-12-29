@@ -21,7 +21,7 @@ CFLAGS		=	-Wall -Wextra -Werror
 AR			=	ar
 ARFLAGS		=	rcsu
 
-DBGS		=	-fsanitize=address -d3
+DBGS		=	-fsanitize=address -g3
 
 MLX_NAME	=	mlx
 MLX_DIR		=	./mlx
