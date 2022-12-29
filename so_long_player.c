@@ -6,7 +6,7 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 19:25:04 by chanheki          #+#    #+#             */
-/*   Updated: 2022/12/21 22:47:54 by chanheki         ###   ########.fr       */
+/*   Updated: 2022/12/29 21:46:42 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	draw_player(t_game *game, int key_code)
 
 void	draw_player_lose(t_game *game)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	while (i++)
