@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long_mlx.c                                      :+:      :+:    :+:   */
+/*   so_long_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/21 15:49:55 by chanheki          #+#    #+#             */
-/*   Updated: 2023/01/04 03:29:05 by chanheki         ###   ########.fr       */
+/*   Created: 2023/01/04 03:28:37 by chanheki          #+#    #+#             */
+/*   Updated: 2023/01/04 04:21:19 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./so_long.h"
 
-void	*mxfti(void *xvar, char *file, int *width, int *height)
+void	draw_step_count(t_game *game)
 {
-	return (mlx_xpm_file_to_image(xvar, file, width, height));
+	char	*str;
+
+	mpitw(game, game->wall, 0 * WIDTH, 0 * HEIGHT);
+	str = ft_itoa(game->board->count_move);
+	mlx_string_put(game->mlx, game->win, 4, 10, 0xFFFFFF, str);
+	free(str);
 }
 
-int	mpitw(t_game *game, void *img_ptr, int x, int y)
+void	draw_player_lose(t_game *game)
 {
-	return (mlx_put_image_to_window(game->mlx, game->win, img_ptr, x, y));
+	static int	i;
+
+	mpitw(game, game->player->player_lose[11], \
+			game->player->y * WIDTH, game->player->x * HEIGHT);
 }

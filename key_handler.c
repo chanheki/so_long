@@ -6,7 +6,7 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 22:23:46 by chanheki          #+#    #+#             */
-/*   Updated: 2022/12/21 22:47:47 by chanheki         ###   ########.fr       */
+/*   Updated: 2023/01/04 04:00:30 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static void	press_key(t_game *game, int dir)
 
 	if (game->board->map[x + dx[dir]][y + dy[dir]] == 'C')
 		game->board->collectible -= 1;
-	if (game->board->map[x + dx[dir]][y + dy[dir]] == 'e')
+	if (game->board->map[x + dx[dir]][y + dy[dir]] == 'B' ||
+			game->board->map[x + dx[dir]][y + dy[dir]] == 'b')
 		lose_game(game);
 	if (game->board->map[x + dx[dir]][y + dy[dir]] == 'E' &&
 			game->board->collectible == 0)
@@ -42,10 +43,16 @@ static void	press_key(t_game *game, int dir)
 
 int	key_handler(int key, t_game *game)
 {
-	if (key == KEYBOARD_A || key == KEYBOARD_S
-		|| key == KEYBOARD_D || key == KEYBOARD_W)
-		press_key(game, key);
+	if (game->game_status == NORMAL)
+	{
+		if (key == KEYBOARD_A || key == KEYBOARD_S
+			|| key == KEYBOARD_D || key == KEYBOARD_W)
+			press_key(game, key);
+	}
 	if (key == KEYBOARD_ESC)
-		exit(0);
+	{
+		write(1, "ESC key : ", 10);
+		exit_game(game);
+	}
 	return (0);
 }

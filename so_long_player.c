@@ -6,7 +6,7 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 19:25:04 by chanheki          #+#    #+#             */
-/*   Updated: 2022/12/29 21:46:42 by chanheki         ###   ########.fr       */
+/*   Updated: 2023/01/04 03:30:47 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,20 +102,4 @@ void	draw_player(t_game *game, int key_code)
 		draw_player_dir(game, 2, key_code);
 	else
 		draw_player_dir(game, 1, key_code);
-}
-
-
-void	draw_player_lose(t_game *game)
-{
-	int	i;
-
-	i = 1;
-	while (i++)
-	{
-		printf("%d\n", i);
-		mpitw(game, game->player->player_lose[i / 100],
-			game->player->y * WIDTH, game->player->x * HEIGHT);
-		if (i >= 1099)
-			break;
-	}
 }

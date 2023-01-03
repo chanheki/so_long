@@ -6,7 +6,7 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 18:54:48 by chanheki          #+#    #+#             */
-/*   Updated: 2022/12/22 00:00:43 by chanheki         ###   ########.fr       */
+/*   Updated: 2023/01/04 04:17:04 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,13 @@ static void	frame_count(t_game *game)
 					game->enemy->move = 0;
 			}
 		}
-	}	
+	}
+	else if (game->game_status == GAME_OVER)
+	{
+		game->player->frame++;
+		if (game->player->frame >= PLAYER_LOSE_FRAME)
+			game->player->frame = 0;
+	}
 }
 
 static int	main_loop(t_game *game)
@@ -45,8 +51,8 @@ static int	main_loop(t_game *game)
 	}
 	else if (game->game_status == GAME_OVER)
 	{
+		frame_count(game);
 		draw_player_lose(game);
-		printf("gameover\n");
 	}
 	return (0);
 }

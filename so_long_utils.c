@@ -6,7 +6,7 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 20:13:08 by chanheki          #+#    #+#             */
-/*   Updated: 2022/12/21 15:44:09 by chanheki         ###   ########.fr       */
+/*   Updated: 2023/01/04 04:11:37 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	exit_game(t_game *game)
 {
-	write(1, "user exit\n", 10);
-	write(1, "\nGame Win!! ", 12);
+	write(1, "Exit Button : ", 14);
+	write(1, "Quit the program in a clean way.\n", 33);
 	mlx_destroy_window(game->mlx, game->win);
 	exit(0);
 }
@@ -23,8 +23,7 @@ int	exit_game(t_game *game)
 void	lose_game(t_game *game)
 {
 	game->game_status = GAME_OVER;
-	draw_player_lose(game);
-	print_step_count(game->board->count_move + 1, 0);
+	// draw_player_lose(game);
 	write (1, "lose game\n", 10);
 	if (game->game_status == SHUTDOWN)
 	{
@@ -36,6 +35,7 @@ void	lose_game(t_game *game)
 int	end_game(t_game *game)
 {
 	print_step_count(game->board->count_move + 1, 0);
+	write(1, "Escape the program in a clean way.\n", 35);
 	mlx_destroy_window(game->mlx, game->win);
 	exit(0);
 }

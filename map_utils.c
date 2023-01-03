@@ -6,7 +6,7 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 20:07:18 by chanheki          #+#    #+#             */
-/*   Updated: 2022/12/29 22:29:16 by chanheki         ###   ########.fr       */
+/*   Updated: 2023/01/04 03:35:57 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	map_read(char *filename, t_game *game)
 	if (fd <= 0)
 		ret_error("fd error");
 	line = get_next_line(fd);
+	if (line == NULL)
+		ret_error("no data");
 	game->board->wid = ft_strlen(line) - 1;
 	str = ft_strdup("");
 	while (line)
@@ -50,31 +52,10 @@ void	map_read(char *filename, t_game *game)
 	}
 	check_validate_board(game, str);
 	game->board->map = ft_split(str, '\n');
+	map_check(game, str);
 	free(str);
 	free(line);
 	close(fd);
-}
-
-void	img_init(t_game *game)
-{
-	int	wid;
-	int	hei;
-
-	game->wall = mxfti(game->mlx, WALL, &wid, &hei);
-	game->tile = mxfti(game->mlx, TILE, &wid, &hei);
-	game->collect = mxfti(game->mlx, COLLECT, &wid, &hei);
-	game->exit_close = mxfti(game->mlx, EXIT_CLOSE, &wid, &hei);
-	game->exit_open = mxfti(game->mlx, EXIT_OPEN, &wid, &hei);
-}
-
-static void	draw_step_count(t_game *game)
-{
-	char	*str;
-
-	mpitw(game, game->wall, 0 * WIDTH, 0 * HEIGHT);
-	str = ft_itoa(game->board->count_move);
-	mlx_string_put(game->mlx, game->win, 4, 10, 0xFFFFFF, str);
-	free(str);
 }
 
 void	map_set(t_game *game, int key_code)
@@ -92,7 +73,8 @@ void	map_set(t_game *game, int key_code)
 				mpitw(game, game->tile, y * WIDTH, x * HEIGHT);
 			else if (game->board->map[x][y] == 'P')
 				draw_player(game, key_code);
-			else if (game->board->map[x][y] == 'e')
+			else if (game->board->map[x][y] == 'B' ||
+						game->board->map[x][y] == 'b')
 			{
 				game->enemy->x = x;
 				game->enemy->y = y;
@@ -125,31 +107,8 @@ void	map_init(t_game *game)
 				exit_init(game, x, y);
 			else if (game->board->map[x][y] == 'C')
 				mpitw(game, game->collect, y * WIDTH, x * HEIGHT);
-			else if (game->board->map[x][y] == 'e')
-			{
-				game->enemy->x = x;
-				game->enemy->y = y;
+			else if (game->board->map[x][y] == 'B')
 				draw_enemy(game, dir_enemy(game, x, y));
-			}
 		}
-	}
-	check_exit(game);
-	draw_step_count(game);
-}
-
-void	exit_init(t_game *game, int x, int y)
-{
-	game->exit_x = x;
-	game->exit_y = y;
-	game->board->map[x][y] = '0';
-}
-
-void	check_exit(t_game *game)
-{
-	if (game->board->collectible == 0)
-	{
-		game->board->map[game->exit_x][game->exit_y] = 'E';
-		mpitw(game, game->exit_open,
-				game->exit_y * WIDTH, game->exit_x * HEIGHT);
 	}
 }

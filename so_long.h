@@ -6,7 +6,7 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 18:55:01 by chanheki          #+#    #+#             */
-/*   Updated: 2022/12/22 00:16:24 by chanheki         ###   ########.fr       */
+/*   Updated: 2023/01/04 04:17:19 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <fcntl.h>
 
 # define PLAYER_MAX_FRAME	30
+# define PLAYER_LOSE_FRAME	110
 # define ENEMY_MAX_FRAME	10
 # define ENEMY_MOVE_FREQ	30
 # define WIDTH				50
@@ -144,8 +145,8 @@ typedef struct s_enemy
 typedef enum e_game_status
 {
 	NORMAL		= 0,
-	PAUSE 		= 1,
-	GAME_OVER 	= 2,
+	PAUSE		= 1,
+	GAME_OVER	= 2,
 	SHUTDOWN	= 3
 }	t_game_status;
 
@@ -174,12 +175,14 @@ int		end_game(t_game *game);
 int		exit_game(t_game *game);
 void	ret_error(char *errmsg);
 void	print_step_count(int count_move, int flag);
+void	draw_step_count(t_game *game);
 
 void	check_validate_board(t_game *game, char *str);
 
 void	img_init(t_game *game);
 void	map_set(t_game *game, int key_code);
 void	map_read(char *filename, t_game *game);
+void	map_check(t_game *game, char *str);
 void	check_exit(t_game *game);
 void	draw_player(t_game *game, int key_code);
 void	draw_player_lose(t_game *game);
@@ -203,4 +206,7 @@ void	find_enemy(t_game *game);
 int		dir_enemy(t_game *game, int x, int y);
 void	draw_enemy(t_game *game, int key_code);
 void	draw_enemy_dir(t_game *game, int dir, int key_code);
+
+void	dfs(int x, int y, char **map, t_board *checker);
+
 #endif

@@ -37,7 +37,8 @@ SRCS		=	so_long.c \
 				so_long_init.c \
 				so_long_mlx.c \
 				so_long_player.c \
-				so_long_enemy.c
+				so_long_enemy.c \
+				so_long_bonus.c 
 
 OBJS	=	$(SRCS:.c=.o)
 
@@ -49,13 +50,13 @@ all : $(NAME)
 
 bonus : $(NAME)
 
-debug : $(NAME)
+dbgs : $(NAME)
 
 $(NAME) : $(OBJS)
 	make -C $(LIB_DIR)
 	make -C $(MLX_DIR)
 	cp $(LIB_DIR)/$(LIBFT) $(NAME)
-	$(CC) $(CFLAGS) -l$(MLX_NAME) $(MLX_REPO) $(MLX_FLAGS) $(OBJS) $(LIB_DIR)/$(LIBFT) -o $(NAME) $(if $(filter debug, $(MAKECMDGOALS)), $(DBGS))
+	$(CC) $(CFLAGS) -l$(MLX_NAME) $(MLX_REPO) $(MLX_FLAGS) $(OBJS) $(LIB_DIR)/$(LIBFT) -o $(NAME) $(if $(filter dbgs, $(MAKECMDGOALS)), $(DBGS))
 	make fclean -C $(LIB_DIR)
 	@echo "$(YELLOW)===============================================$(DEF_COLOR)"
 	@echo "$(YELLOW)|         so_long   compile finished.         |$(DEF_COLOR)"

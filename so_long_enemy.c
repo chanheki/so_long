@@ -6,7 +6,7 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 19:25:04 by chanheki          #+#    #+#             */
-/*   Updated: 2022/12/22 00:16:32 by chanheki         ###   ########.fr       */
+/*   Updated: 2023/01/04 03:35:49 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int	dir_enemy(t_game *game, int x, int y)
 	int	dx;
 	int	dy;
 
-	// printf("dir enemy! %d, %d\n", game->enemy->x, game->enemy->y); //TODO del
-	// printf("xy enemy! %d, %d\n", x, y);
+	game->enemy->x = x;
+	game->enemy->y = y;
 	dx = game->player->x - x;
 	dy = game->player->y - y;
 	dir = KEYBOARD_A;
@@ -94,7 +94,8 @@ void	draw_enemy_move(t_game *game)
 		{
 			if (game->board->map[x][y] == '0')
 				mpitw(game, game->tile, y * WIDTH, x * HEIGHT);
-			else if (game->board->map[x][y] == 'e')
+			else if (game->board->map[x][y] == 'B' ||
+						game->board->map[x][y] == 'b')
 			{
 				game->enemy->x = x;
 				game->enemy->y = y;
@@ -116,10 +117,11 @@ void	move_enemy(t_game *game, int x, int y, int dir)
 	else if (game->board->map[x + dx[dir]][y + dy[dir]] != '1' &&
 				game->board->map[x + dx[dir]][y + dy[dir]] != 'E' &&
 					game->board->map[x + dx[dir]][y + dy[dir]] != 'C' &&
-						game->board->map[x + dx[dir]][y + dy[dir]] != 'e')
+						game->board->map[x + dx[dir]][y + dy[dir]] != 'B' &&
+							game->board->map[x + dx[dir]][y + dy[dir]] != 'b')
 	{
 		game->board->map[x][y] = '0';
-		game->board->map[x + dx[dir]][y + dy[dir]] = 'e';
+		game->board->map[x + dx[dir]][y + dy[dir]] = 'b';
 		game->enemy->x = x + dx[dir];
 		game->enemy->y = y + dy[dir];
 	}
@@ -140,10 +142,20 @@ void	find_enemy(t_game *game)
 		y = game->board->wid;
 		while (y--)
 		{
-			if (game->board->map[x][y] == 'e')
+			if (game->board->map[x][y] == 'B')
 			{
 				move_enemy(game, x, y, dir_enemy(game, x, y));
 			}
+		}
+	}
+	x = game->board->hei;
+	while (x--)
+	{
+		y = game->board->wid;
+		while (y--)
+		{
+			if (game->board->map[x][y] == 'b')
+				game->board->map[x][y] = 'B';
 		}
 	}
 }
