@@ -6,14 +6,13 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 18:55:01 by chanheki          #+#    #+#             */
-/*   Updated: 2023/01/04 04:17:19 by chanheki         ###   ########.fr       */
+/*   Updated: 2023/01/04 23:10:38 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-// # include <mlx.h>
 # include "mlx/mlx.h"
 # include "lib/libft.h"
 # include <stdio.h>
@@ -21,6 +20,7 @@
 
 # define PLAYER_MAX_FRAME	30
 # define PLAYER_LOSE_FRAME	7
+# define LOSE_MAX_FRAME		12
 # define ENEMY_MAX_FRAME	10
 # define ENEMY_MOVE_FREQ	30
 # define WIDTH				50
@@ -171,12 +171,10 @@ typedef struct s_game
 
 /* so_long func */
 void	lose_game(t_game *game);
-void	checkerset(t_game *checker, t_game *game);
 int		end_game(t_game *game);
 int		exit_game(t_game *game);
-void	ret_error(char *errmsg);
+void	error_exitor(char *errmsg);
 void	print_step_count(t_game *game);
-void	draw_step_count(t_game *game);
 
 void	check_validate_board(t_game *game, char *str);
 
@@ -210,4 +208,12 @@ void	draw_enemy_dir(t_game *game, int dir, int key_code);
 
 void	dfs(int x, int y, char **map, t_board *checker);
 void	lose_game_shutdown(t_game *game);
+
+/* frame */
+void	frame_normal(t_game *game);
+void	frame_game_over(t_game *game);
+void	frame_count(t_game *game);
+
+/* bonus */
+void	draw_step_count(t_game *game);
 #endif

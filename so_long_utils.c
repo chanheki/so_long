@@ -6,7 +6,7 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 20:13:08 by chanheki          #+#    #+#             */
-/*   Updated: 2023/01/04 04:11:37 by chanheki         ###   ########.fr       */
+/*   Updated: 2023/01/04 22:49:15 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	end_game(t_game *game)
 	exit(0);
 }
 
-void	ret_error(char *errmsg)
+void	error_exitor(char *errmsg)
 {
 	write (1, "Error\n", 6);
 	perror (errmsg);

@@ -6,47 +6,11 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 18:54:48 by chanheki          #+#    #+#             */
-/*   Updated: 2023/01/04 04:17:04 by chanheki         ###   ########.fr       */
+/*   Updated: 2023/01/04 22:06:34 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./so_long.h"
-
-static void	frame_count(t_game *game)
-{
-	if (game->game_status == NORMAL)
-	{
-		game->player->frame++;
-		if (game->player->frame >= PLAYER_MAX_FRAME)
-			game->player->frame = 0;
-		if (game->board->enemy_count)
-		{
-			game->enemy->frame++;
-			if (game->enemy->frame >= ENEMY_MAX_FRAME)
-			{
-				game->enemy->frame = 0;
-				game->enemy->move ++;
-				if (game->enemy->move > ENEMY_MOVE_FREQ)
-					game->enemy->move = 0;
-			}
-		}
-	}
-	else if (game->game_status == GAME_OVER)
-	{
-		game->player->frame ++;
-		if (game->player->frame >= PLAYER_LOSE_FRAME)
-		{
-			game->player->dir ++;
-			game->player->frame = 0;
-		}
-		if (game->player->dir == 12)
-		{
-			game->player->dir = 0;
-			game->game_status = SHUTDOWN;
-		}
-
-	}
-}
 
 static int	main_loop(t_game *game)
 {
@@ -87,6 +51,6 @@ int	main(int argc, char *argv[])
 		mlx_loop(game.mlx);
 	}
 	else
-		perror ("Usage: ./so_long [MAP_FILE.ber]\n");	
+		perror ("Usage: ./so_long [MAP_FILE.ber]\n");
 	return (0);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_utils.c                                        :+:      :+:    :+:   */
+/*   map_utils_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 20:07:18 by chanheki          #+#    #+#             */
-/*   Updated: 2023/01/04 23:36:18 by chanheki         ###   ########.fr       */
+/*   Updated: 2023/01/04 23:36:37 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,31 +83,4 @@ void	map_init(t_game *game)
 				draw_enemy(game, dir_enemy(game, x, y));
 		}
 	}
-}
-
-void	map_set(t_game *game, int key_code)
-{
-	int	x;
-	int	y;
-
-	x = game->board->hei;
-	while (x--)
-	{
-		y = game->board->wid;
-		while (y--)
-		{
-			if (game->board->map[x][y] == '0')
-				mpitw(game, game->tile, y * WIDTH, x * HEIGHT);
-			else if (game->board->map[x][y] == 'P')
-				draw_player(game, key_code);
-			else if (game->board->map[x][y] == 'B' ||
-						game->board->map[x][y] == 'b')
-			{
-				game->enemy->x = x;
-				game->enemy->y = y;
-				draw_enemy(game, dir_enemy(game, x, y));
-			}
-		}
-	}
-	check_exit(game);
 }

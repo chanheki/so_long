@@ -6,7 +6,7 @@
 /*   By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 20:11:51 by chanheki          #+#    #+#             */
-/*   Updated: 2023/01/04 03:22:22 by chanheki         ###   ########.fr       */
+/*   Updated: 2023/01/04 22:49:15 by chanheki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,13 @@ void	map_check(t_game *game, char *str)
 
 	strlen = (int)ft_strlen(str);
 	if (game->board->hei == game->board->wid)
-		ret_error("The map must be rectangular.");
+		error_exitor("The map must be rectangular.");
 	else if (game->board->wid * game->board->hei != strlen - game->board->hei)
-		ret_error("uncompleted map");
+		error_exitor("uncompleted map");
 	else if (wall_checker(game, str))
-		ret_error("The map must be closed/surrounded by walls.");
+		error_exitor("The map must be closed/surrounded by walls.");
 	else if (escape_checker(game, str))
-		ret_error("You have to check if there`s a valid path in the map.");
+		error_exitor("You have to check if there`s a valid path in the map.");
 }
 
 void	check_validate_board(t_game *game, char *str)
@@ -114,22 +114,23 @@ void	check_validate_board(t_game *game, char *str)
 	int	player;
 
 	i = 0;
-	player = 1;
+	player = 0;
 	while (str[i])
 	{
 		if (str[i] == 'C')
 			game->board->collectible ++;
 		else if (str[i] == 'P')
-			player --;
+			player ++;
 		else if (str[i] == 'E')
 			game->board->map_exit ++;
 		else if (str[i] == 'B')
 			game->board->enemy_count ++;
 		else if (str[i] != '0' && str[i] != '1' && str[i] != '\n')
-			ret_error("unexpected input on map");
+			error_exitor("unexpected input on map");
 		i++;
 	}
-	if ((player || !game->board->collectible) && (game->board->map_exit == 1))
-		ret_error("must contain 1 exit, at least 1 collectible, \
+	if (!(player == 1) || !(game->board->map_exit == 1) || \
+			game->board->collectible < 1)
+		error_exitor("must contain 1 exit, at least 1 collectible, \
 and 1 starting position");
 }
