@@ -24,8 +24,12 @@ void	draw_step_count(t_game *game)
 
 void	draw_player_lose(t_game *game)
 {
-	static int	i;
+	mpitw(game, game->player->player_lose[game->player->dir], \
+				game->player->y * WIDTH, game->player->x * HEIGHT);
+}
 
-	mpitw(game, game->player->player_lose[11], \
-			game->player->y * WIDTH, game->player->x * HEIGHT);
+void	lose_game_shutdown(t_game *game)
+{
+	mlx_destroy_window(game->mlx, game->win);
+	exit(0);
 }
