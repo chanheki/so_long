@@ -35,7 +35,7 @@ static void	press_key(t_game *game, int dir)
 		game->player->y += dy[dir];
 		game->board->map[x + dx[dir]][y + dy[dir]] = 'P';
 		game->board->count_move += 1;
-		print_step_count(game->board->count_move, 1);
+		print_step_count(game);
 	}
 	game->player->dir = dir;
 	map_set(game, dir);

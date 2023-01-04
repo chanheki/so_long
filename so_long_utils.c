@@ -23,19 +23,20 @@ int	exit_game(t_game *game)
 void	lose_game(t_game *game)
 {
 	game->game_status = GAME_OVER;
-	// draw_player_lose(game);
-	write (1, "lose game\n", 10);
-	if (game->game_status == SHUTDOWN)
-	{
-		mlx_destroy_window(game->mlx, game->win);
-		exit(0);
-	}
+	game->player->dir = 0;
+	write (1, "\033[0;31m==========\n", 18);
+	write (1, "\033[0;31mlose game\n", 18);
+	write (1, "\033[0;31m==========\n", 18);
 }
 
 int	end_game(t_game *game)
 {
-	print_step_count(game->board->count_move + 1, 0);
+	game->game_status = GAME_WIN;
+	write (1, "\033[0;36m==========\n", 18);
+	write (1, "\033[0;36mWIN! game\n", 18);
+	write (1, "\033[0;36m==========\n", 18);
 	write(1, "Escape the program in a clean way.\n", 35);
+	print_step_count(game);
 	mlx_destroy_window(game->mlx, game->win);
 	exit(0);
 }
@@ -47,12 +48,13 @@ void	ret_error(char *errmsg)
 	exit(0);
 }
 
-void	print_step_count(int count_move, int flag)
+void	print_step_count(t_game *game)
 {
-	if (flag)
-		write(1, "step count: ", 12);
-	else
-		write(1, "step count: ", 13);
-	ft_putnbr_fd(count_move, 0);
+	if (game->game_status == GAME_OVER)
+		write(1, "\033[0;32mlast ", 12);
+	if (game->game_status == GAME_WIN)
+		write(1, "\033[0;32mWIN: last ", 17);
+	write(1, "\033[0;39mstep count: ", 19);
+	ft_putnbr_fd(game->board->count_move, 0);
 	write(1, " steps\n", 7);
 }
