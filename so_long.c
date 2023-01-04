@@ -33,27 +33,35 @@ static void	frame_count(t_game *game)
 	}
 	else if (game->game_status == GAME_OVER)
 	{
-		game->player->frame++;
+		game->player->frame ++;
 		if (game->player->frame >= PLAYER_LOSE_FRAME)
+		{
+			game->player->dir ++;
 			game->player->frame = 0;
+		}
+		if (game->player->dir == 12)
+		{
+			game->player->dir = 0;
+			game->game_status = SHUTDOWN;
+		}
+
 	}
 }
 
 static int	main_loop(t_game *game)
 {
+	frame_count(game);
 	if (game->game_status == NORMAL)
 	{
-		frame_count(game);
 		draw_player(game, game->player->dir);
 		draw_enemy_move(game);
 		if (game->enemy->move == ENEMY_MOVE_FREQ)
 			find_enemy(game);
 	}
 	else if (game->game_status == GAME_OVER)
-	{
-		frame_count(game);
 		draw_player_lose(game);
-	}
+	else if (game->game_status == SHUTDOWN)
+		lose_game_shutdown(game);
 	return (0);
 }
 
