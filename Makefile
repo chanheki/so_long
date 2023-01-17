@@ -3,93 +3,135 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chanheki <chanheki@student.42seoul.kr>         +#+  +:+       +#+         #
+#    By: chanheki <chanheki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/12/12 16:31:36 by chanheki            #+#    #+#              #
-#    Updated: 2022/12/12 22:14:19 by chanheki           ###   ########.fr        #
+#    Created: 2023/01/16 18:05:34 by chanheki          #+#    #+#              #
+#    Updated: 2023/01/17 20:40:53 by chanheki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		=	so_long
+# ---- NAME ---- #
 
-LIB_DIR		=	./lib
-LIBFT		=	libft.a
+NAME		= so_long
 
-CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror
+LIBFT		= ./lib/libft.a
+LIBFTCC		= -L./lib -lft
 
-AR			=	ar
-ARFLAGS		=	rcsu
-
-DBGS		=	-fsanitize=address -g3
-
-MLX_NAME	=	mlx
-MLX_DIR		=	./mlx
-MLX_REPO	=	-L./mlx -lmlx 
+MLX			=	./mlx/libmlx.a
+MLXCC		=	-L./mlx -lmlx
 MLX_FLAGS	=	-framework OpenGL -framework Appkit
 
-SRCS		=	so_long.c \
-				key_handler.c \
-				map_check.c \
-				map_utils.c \
-				get_next_line.c \
-				so_long_init.c \
-				so_long_mlx.c \
-				so_long_player.c \
-				so_long_enemy.c \
-				so_long_enemy_util.c \
-				so_long_frame.c \
-				so_long_bonus_part.c \
-				so_long_utils.c
+CC = cc
+CFLAGS = -Wall -Wextra -Werror $(DBGS)
+DBGS = -fsanitize=address -g3
 
-SRCS_BONUS	=	so_long_utils_bonus.c \
-				so_long_bonus.c \
-				so_long.c \
-				key_handler.c \
-				map_check.c \
-				map_utils.c \
-				get_next_line.c \
-				so_long_init.c \
-				so_long_mlx.c \
-				so_long_player.c \
-				so_long_enemy.c \
-				so_long_enemy_util.c \
-				so_long_frame.c \
-				so_long_bonus_part.c
+AR = ar
+ARFLAG = ruc
+RM = rm -rf
 
-OBJS		=	$(SRCS:.c=.o)
+object_dir = ./objects
 
-OBJS_BONUS	=	$(SRCS_BONUS:.c=.o)
+# ---- escape ---- #
 
-# Colors
-DEF_COLOR = \033[0;39m
-YELLOW = \033[0;93m
+DELINE = \033[K
+CURSUP = \033[A
+
+RESET = \033[0m
+RESTINT = \033[22m
+
+BOLD = \033[1m
+
+MAGENTA = \033[35m
+GREEN = \033[32m
+RED = \033[31m
+
+# ---- Mandatory ---- #
+
+sources1 :=	
+
+sources1 += ft_mandatory/so_long_main.c
+sources1 += ft_mandatory/get_next_line.c 
+sources1 += ft_mandatory/so_long_enemy_move.c 
+sources1 += ft_mandatory/so_long_enemy.c 
+sources1 += ft_mandatory/so_long_frame.c 
+sources1 += ft_mandatory/so_long_init.c 
+sources1 += ft_mandatory/so_long_key_handler.c 
+sources1 += ft_mandatory/so_long_lose.c 
+sources1 += ft_mandatory/so_long_map_check.c 
+sources1 += ft_mandatory/so_long_map_utils.c 
+sources1 += ft_mandatory/so_long_mlx.c 
+sources1 += ft_mandatory/so_long_player.c 
+sources1 += ft_mandatory/so_long_utils.c
+
+# ---- Bonus ---- #
+
+sources2 :=	
+
+sources2 += ft_bonus/so_long_bonus_main.c
+sources2 += ft_bonus/get_next_line.c 
+sources2 += ft_bonus/so_long_key_handler.c 
+sources2 += ft_bonus/so_long_map_check.c 
+sources2 += ft_bonus/so_long_map_utils.c 
+sources2 += ft_bonus/so_long_bonus_part.c 
+sources2 += ft_bonus/so_long_enemy.c 
+sources2 += ft_bonus/so_long_frame.c 
+sources2 += ft_bonus/so_long_init.c 
+sources2 += ft_bonus/so_long_mlx.c 
+sources2 += ft_bonus/so_long_player.c 
+sources2 += ft_bonus/so_long_utils.c
+
+# ---- Elements ---- #
+
+all_sources = $(sources1) $(sources2)
+
+objects1 = $(sources1:.c=.o)
+objects2 = $(sources2:.c=.o)
+all_objects = $(objects1) $(objects2)
+
+define objects_goal
+$(addprefix $(object_dir)/, $(call $(if $(filter bonus, $(MAKECMDGOALS)), objects2, objects1))) 
+endef
+
+define react
+$(if $(filter bonus, $(MAKECMDGOALS)), bonus, all)
+endef
+
+# ---- Command ---- #
+
+.PHONY : all bonus clean fclean re
 
 all : $(NAME)
 
+$(NAME) : $(objects_goal) $(LIBFT) $(MLX)
+	@$(CC) $(CFLAGS) -o $@ $(objects_goal) $(LIBFTCC) $(MLXCC) $(MLX_FLAGS)
+	@echo "$(DELINE) $(MAGENTA)$@ $(RESET) is compiled $(GREEN)$(BOLD) OK ✅ $(RESET)"
+
 bonus : $(NAME)
-    @make OBJS='$(OBJS_BONUS)'
 
-$(NAME) : $(OBJS)
-	make -C $(LIB_DIR)
-	make -C $(MLX_DIR)
-	cp $(LIB_DIR)/$(LIBFT) $(NAME)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -l$(MLX_NAME) $(MLX_REPO) $(MLX_FLAGS) $(LIB_DIR)/$(LIBFT)
-	make fclean -C $(LIB_DIR)
-	@echo "$(YELLOW)===============================================$(DEF_COLOR)"
-	@echo "$(YELLOW)|         so_long   compile finished.         |$(DEF_COLOR)"
-	@echo "$(YELLOW)===============================================$(DEF_COLOR)"
+$(object_dir)/%.o : %.c
+	@#mkdir -p $(object_dir)
+	@mkdir -p $(object_dir)/$(dir $^)
+	@$(CC) $(CFLAGS) -c $^ -o $@
+	@echo " $(MAGENTA)$(NAME) $(RESET)objects file compiling... $(DELINE)$(GREEN) $^ $(RESET)$(CURSUP)"
 
-clean:
-	rm -rf $(OBJS)
-	rm -rf $(OBJS_BONUS)
+$(LIBFT) :
+	@make -C ./lib all
+
+$(MLX) :
+	@make -C ./mlx all
+
+clean :
+	@$(RM) $(all_objects)
+	@rm -rf $(object_dir)
+	@make -C ./lib clean
+	@make -C ./mlx clean
+	@echo "$(RED) Delete$(BOLD) objects $(RESTINT)file $(RESET)"
 
 fclean : clean
-	make -C $(LIB_DIR) fclean
-	rm -rf $(NAME)
+	@$(RM) $(NAME)
+	@make -C ./lib fclean
+	@make -C ./mlx clean
+	@echo "$(RED) Delete$(BOLD) $(NAME) $(RESTINT)file $(RESET)"
 
-re: 
-	make fclean
-	make all
-
-.PHONY = all clean fclean re bonus
+re : fclean
+	@make $(react)
