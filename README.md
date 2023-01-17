@@ -1,4 +1,4 @@
-# so_long
+# so_long[Notion Page](https://nova-cilantro-0ec.notion.site/so_long-cc40c2280cae4fa09753757d62f7f590)
 ### 20221219 init
 ### 20221220 concepts confirmed
 ### 20221221 bonus pid
